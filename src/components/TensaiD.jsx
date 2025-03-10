@@ -1,24 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { extend } from '@react-three/fiber'
 import { useGLTF, useTexture, Decal, Html } from '@react-three/drei';
-import { SideMenu } from "./sideMenu"; 
-
-
 
 export function TensaiD(props) {
   const [uploadedImage, setUploadedImage] = useState(null);
   const { nodes, materials } = useGLTF('/models/tensaiD.glb');
-  const [selectedImage, setSelectedImage] = useState(null);
   
-  const handleImageSelect = (imageData) => {
-    setSelectedImage(imageData);
-    {handleImageUpload}  // Update the state with the selected image
-    console.log("Selected image in TensaiD:", imageData);  // For debugging
-  };
-
 
   const handleImageUpload = (event) => {
-    const file = setSelectedImage;
+    const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
