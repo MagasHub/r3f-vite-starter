@@ -6,3 +6,65 @@
 body {
   margin: 0;
 }
+
+/* Side menu styles */
+/* Side menu container */
+/* Side menu container */
+/* Side menu container */
+.sideMenu {
+  position: fixed;
+  top: 50%;
+  left: clamp(15vw, 10vw, 5vw); /* Left adjusts dynamically based on screen width */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  z-index: 10;
+  padding: 20px 0;
+  transition: height 0.3s ease, left 0.3s ease;
+  height: clamp(300px, 20vh, 500px);
+
+}
+
+.menuButton {
+  transition: transform 0.3s ease-in-out;
+}
+
+.moveRightandadjust {
+
+  transform: translateY(20px) translateX(40px)!important;
+}
+
+.adjust {
+
+  transform: translateY(20px)!important; /* Adjust this value if needed */
+}
+
+/* Move the top and bottom buttons to the right */
+.moveRight {
+  transform: translateX(50px) !important; /* Adjust this value if needed */
+}
+
+
+/* Dynamically resizing icons */
+.icon {
+  width: clamp(35px, 6vw, 90px); /* Responsive icon size */
+  height: clamp(35px, 6vw, 90px);
+}
+
+
+
+
+.canvas-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/Icons/Artboard 1.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -11,7 +11,13 @@
   "dependencies": {
     "@react-three/drei": "9.75.0",
     "@react-three/fiber": "8.13.3",
+    "@shadcn/ui": "^0.0.4",
     "@types/three": "0.152.1",
+    "add": "^2.0.6",
+    "button": "^1.1.1",
+    "framer-motion": "^12.4.7",
+    "init": "^0.1.2",
+    "lucide-react": "^0.476.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "0.153.0"
@@ -20,6 +26,10 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "shadcn-ui": "^0.9.4",
+    "tailwindcss": "^4.0.8",
     "vite": "^4.1.0"
   }
 }
