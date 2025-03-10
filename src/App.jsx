@@ -1,32 +1,27 @@
+import { useTextureStore } from "./store/textureStore";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
-import { SideMenu } from "./components/sideMenu";
+import { SideMenu } from "./components/ui/sideMenu";
 
 function App() {
+  const handleImageSelect = (image) => {
+    const addTextureFromButton = useTextureStore((state) => state.addTextureFromButton);
+    addTextureFromButton(image);
+  };
 
-  
+  const handleTextureChange = () => {
+    console.log("Hello"); //TODO (ja funciona com o imageSleect...)
+  };
+
   return (
     <div className="canvas-container" style={{ position: "relative", height: "100vh" }}>
-      {/* UI Menu in front of the Canvas */}
-      <SideMenu />
-
-      {/* 3D Canvas */}
-      <Canvas
+      <SideMenu onImageSelect={handleImageSelect} onTextureChange={handleTextureChange} />
       
+      <Canvas
         shadows
         camera={{ position: [-2.25, 1.395, 4.18], fov: 35 }}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          background: "transparent",
-          height: "100%",
-          zIndex: 0, // Ensure the canvas is behind the UI menu
-        }}
-        
       >
-        
+
         <Experience />
       </Canvas>
     </div>
