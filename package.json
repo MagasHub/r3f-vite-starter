@@ -17,15 +17,7 @@
     "button": "^1.1.1",
     "framer-motion": "^12.4.7",
     "init": "^0.1.2",
-    "lucide-react": "^0.476.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "three": "0.153.0"
-    "@react-three/drei": "^10.0.3",
-    "@react-three/fiber": "^9.0.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "three": "^0.173.0"
+    "lucide-react": "^0.476.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
