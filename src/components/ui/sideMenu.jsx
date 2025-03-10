@@ -6,26 +6,26 @@ import { useTextureStore } from "../../store/textureStore";
 const buttons = [
   {
     id: 1,
-    icon: <img src="/Icons/grelha_branco.svg" className="icon" />,
-    hoverIcon: <img src="/Icons/grelha_azul.svg" className="icon" />,
+    icon: <img src="/Icons/Ativo 3.svg" className="icon" />,
+    hoverIcon: <img src="/Icons/tampa_azul.svg" className="icon" />,
     label: "Grelha Lateral",
   },
   {
     id: 2,
-    icon: <img src="/Icons/design_branco.svg" className="icon" />,
-    hoverIcon: <img src="/Icons/design_azul.svg" className="icon" />,
+    icon: <img src="/Icons/cuba_branco.svg" className="icon" />,
+    hoverIcon: <img src="/Icons/orcamento_azul.svg" className="icon" />,
     label: "Design Exterior",
   },
   {
     id: 3,
-    icon: <img src="/Icons/cuba_branco.svg" className="icon" />,
-    hoverIcon: <img src="/Icons/orcamento_azul.svg" className="icon" />,
+    icon: <img src="/Icons/design_branco.svg" className="icon" />,
+    hoverIcon: <img src="/Icons/design_azul.svg" className="icon" />,
     label: "Cuba Interior",
   },
   {
     id: 4,
-    icon: <img src="/Icons/Ativo 3.svg" className="icon" />,
-    hoverIcon: <img src="/Icons/tampa_azul.svg" className="icon" />,
+    icon: <img src="/Icons/grelha_branco.svg" className="icon" />,
+    hoverIcon: <img src="/Icons/grelha_azul.svg" className="icon" />,
     label: "Tampa",
   },
 ];
@@ -35,7 +35,7 @@ export const SideMenu = () => {
   const fileInputRef = useRef(null);
 
   const addTextureFromButton = useTextureStore((state) => state.addTextureFromButton);
-  
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -100,8 +100,8 @@ export const SideMenu = () => {
               gap: 12,
             }}>
               <div className="buttonLabel">
-                <p style={{color: "#fff"}}>LOTI</p>
-                <p style={{color: "#2596be"}}>{btn.label}</p>
+                <p style={{ color: "#fff" }}>LOTI</p>
+                <p style={{ color: "#2596be" }}>{btn.label}</p>
               </div>
 
               {/* Button */}
