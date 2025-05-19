@@ -171,9 +171,9 @@ export function TensaiD(props) {
     <meshBasicMaterial transparent opacity={0}/>
       <Decal
         debug // Makes "bounding box" of the decal visible
-        position={[0, 0, 0.5]} // Position of the decal
+        position={[-0.1, -0.08, 0.5]} // Position of the decal
         rotation={[0, 0, 0]} // Rotation of the decal (can be a vector or a degree in radians)
-        scale={[1, 0.5, 0.5]} // Scale of the decal
+        scale={[2, 0.8, 0.5]} // Scale of the decal
 
       >
         {uploadedImage && texture && (

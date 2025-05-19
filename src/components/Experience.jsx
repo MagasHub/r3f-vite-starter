@@ -1,42 +1,89 @@
 import { Decal, Environment, OrbitControls, useTexture } from "@react-three/drei";
-import { Tensai } from "./Tensai";
-import { TensaiB } from "./TensaiB";
-import { TensaiC } from "./TensaiC";
-import { TensaiD } from "./TensaiD";
+import { TensaiH } from "./TensaiH";
 import { useThree } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
 
+export function Experience({ 
+  currentMaterial,
+  setCurrentMaterialP, 
+  currentMaterialP, 
+  Cor, 
+  setCor, 
+  CorG, 
+  setCorG, 
+  setCurrentMaterialT, 
+  currentMaterialT,
+  setCurrentMaterialB, 
+  currentMaterialB, 
+  currentMaterialS, 
+  isImageActive, 
+  setIsImageActive, 
+  isImageActiveB, 
+  setIsImageActiveB, 
+  imageData, 
+  tamposVisible, 
+  setTamposVisible,
+  selectedAccessories,
+  logoCor
+}) {
+  const modelRef = useRef();
+  const time = useRef(0);
 
-export const Experience = () => {
+  useEffect(() => {
+    console.log("Inside Experience ", currentMaterialP);
+  }, [currentMaterialP]);
 
   const { camera } = useThree();
 
-  useFrame(() => {
-    console.log("Camera Position:", camera.position);
+  // Adiciona o efeito de flutuação ao objeto 3D
+  useFrame((state, delta) => {
+    if (modelRef.current) {
+      // Incrementa o tempo
+      time.current += delta;
+      
+      // Cria movimentos sutis baseados em funções de seno
+      const hoverAmount = Math.sin(time.current * 0.9) * 0.02;
+      const rotateAmount = Math.sin(time.current * 0.5) * 0.01;
+      
+      // Aplica movimentos de flutuação
+      modelRef.current.position.y = hoverAmount;
+      modelRef.current.rotation.y = rotateAmount;
+      
+      // Pequena inclinação adicional
+      modelRef.current.rotation.x = Math.sin(time.current * 0.4) * 0.01;
+    }
   });
 
- // const texture = useTexture("/textures/tensai.jpg")
   return (
     <>
       <OrbitControls />
-      <TensaiD />
-      <Environment preset="studio" background={false} backgroundIntensity={0} />
-    {/* <mesh>
-        <boxGeometry />
-        <meshNormalMaterial />
-        <Decal
-          debug // Makes "bounding box" of the decal visible
-          position={[0, 0, -0.5]} // Position of the decal
-          rotation={[0, 0, 0]} // Rotation of the decal (can be a vector or a degree in radians)
-          scale={[0.5, 0.5, 0.5]} // Scale of the decal
-        >
-          <meshBasicMaterial
-            map={texture}
-            polygonOffset
-            polygonOffsetFactor={-1} // The material should take precedence over the original
-          />
-        </Decal>
-  </mesh>*/}
+      <group ref={modelRef}>
+        <TensaiH
+          currentMaterial={currentMaterial}
+          Cor={Cor}
+          setCor={setCor}
+          CorG={CorG}
+          setCorG={setCorG}
+          currentMaterialP={currentMaterialP}
+          setCurrentMaterialP={setCurrentMaterialP}
+          currentMaterialB={currentMaterialB}
+          setCurrentMaterialB={setCurrentMaterialB}
+          currentMaterialT={currentMaterialT}
+          setCurrentMaterialT={setCurrentMaterialT}
+          currentMaterialS={currentMaterialS}
+          isImageActive={isImageActive}
+          setIsImageActive={setIsImageActive}
+          isImageActiveB={isImageActiveB}
+          tamposVisible={tamposVisible}
+          setTamposVisible={setTamposVisible}
+          setIsImageActiveB={setIsImageActiveB}
+          imageData={imageData}
+          selectedAccessories={selectedAccessories}
+          logoCor={logoCor}
+        />
+      </group>
+      <Environment preset="warehouse" background={false} backgroundIntensity={0} />
     </>
   );
 };
