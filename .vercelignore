@@ -1,0 +1,3 @@
+# Arquivos a serem ignorados no deploy Vercel
+node_modules
+.git

@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { TopBar } from "./components/TopBar";
 import { useGLTF } from '@react-three/drei';
-import { SideMenu } from "./components/SideMenu";
+import { SideMenu } from "./components/sideMenu";
 import { BottomBar } from "./components/BottomBar";
 import { CustomizationInfoBox } from "./components/CustomizationInfoBox";
 
