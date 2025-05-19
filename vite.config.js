@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -13,11 +12,15 @@ export default defineConfig({
       transformMixedEsModules: true,
     },
   },
-  // Habilite a compatibilidade com resoluções de alias
+  // Configuração mais robusta para resolver importações
   resolve: {
     alias: {
       '@': '/src',
+      'components': '/src/components',
+      'Components': '/src/components',
     },
+    // Tenta resolver diferentes extensões
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   // Configurações específicas para o desenvolvimento
   server: {
