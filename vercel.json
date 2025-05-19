@@ -1,0 +1,11 @@
+
+{
+    "buildCommand": "npm run build",
+    "framework": "vite",
+    "outputDirectory": "dist",
+    "installCommand": "npm install",
+    "routes": [
+      { "handle": "filesystem" },
+      { "src": "/(.*)", "dest": "/index.html" }
+    ]
+  }
