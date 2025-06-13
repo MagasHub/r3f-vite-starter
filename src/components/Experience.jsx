@@ -25,7 +25,10 @@ export function Experience({
   tamposVisible, 
   setTamposVisible,
   selectedAccessories,
-  logoCor
+  logoCor,
+  corLaterais,
+  corLateraisOverride // Override manual das laterais
+
 }) {
   const modelRef = useRef();
   const time = useRef(0);
@@ -81,6 +84,9 @@ export function Experience({
           imageData={imageData}
           selectedAccessories={selectedAccessories}
           logoCor={logoCor}
+          corLaterais={corLaterais}
+          corLateraisOverride={corLateraisOverride} // Override manual das laterais
+
         />
       </group>
       <Environment preset="warehouse" background={false} backgroundIntensity={0} />

@@ -2,8 +2,24 @@ import React, { useRef, useState } from "react";
 import "../index.css";
 import "../GlowingCurve.css";
 
-
-export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMaterialB, setCurrentMaterialT, materials, Cor, setCor, CorG, setCorG, tamposVisible, setTamposVisible, logoCor, setLogoCor }) {
+export function SideMenu({ 
+  onButtonClick, 
+  setCurrentMaterialP, 
+  setCurrentMaterialB, 
+  setCurrentMaterialT, 
+  materials, 
+  Cor, 
+  setCor, 
+  CorG, 
+  setCorG, 
+  tamposVisible, 
+  setTamposVisible, 
+  logoCor, 
+  setLogoCor,
+  // Novo prop para override das laterais
+  corLateraisOverride,
+  setCorLateraisOverride
+}) {
   const fileInputRef = useRef();
   const [uploadTarget, setUploadTarget] = useState(null);
   const [submenuVisible, setSubmenuVisible] = useState(false);
@@ -16,15 +32,15 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
   const buttonImages = [
     { default: "/Icons/side1.svg", hover: "/Icons/side1-hover.png", label: ["LOTI", "TAMPA"] },
     { default: "/Icons/side2.svg", hover: "/Icons/side2-hover.png", label: ["LOTI", "CUBA INTERIOR"] },
-    { default: "/Icons/side3.svg", hover: "/Icons/side3-hover.png", label: ["LOTI", "DESIGN FRONTAL"] },
-    { default: "/Icons/side4.svg", hover: "/Icons/side3-hover.png", label: ["LOTI", "DESIGN POSTERIOR "] },
+    { default: "/Icons/side3.svg", hover: "/Icons/side3-hover.png", label: ["LOTI", "DESIGN EXTERIOR FRONTAL"] },
+    { default: "/Icons/side4.svg", hover: "/Icons/side3-hover.png", label: ["LOTI", "DESIGN EXTERIOR POSTERIOR "] },
     { default: "/Icons/side5.svg", hover: "/Icons/side5-hover.png", label: ["LOTI", "GRELHA LATERAL"] },
-    { default: "/Icons/side6.svg", hover: "/Icons/side5-hover.png", label: ["LOTI", "LOGO"] },
+    { default: "/Icons/side6.png", hover: "/Icons/side6-hover.png", label: ["LOTI", "LOGO"] },
   ];
   
   const handleButtonClick = (index) => {
     if (index === 0) {
-      setSubmenuVisible((prev) => !prev); // toggle submenu
+      setSubmenuVisible((prev) => !prev);
       setSubmenu2Visible(false);
       setSubmenu4Visible(false);
       setSubmenu6Visible(false);
@@ -33,7 +49,7 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
     if (index === 1) {
       setSubmenu2Visible((prev) => {
         const newVisible = !prev;
-        setTamposVisible(!newVisible); // hide when menu opens, show when it closes
+        setTamposVisible(!newVisible);
         return newVisible;
       });
       setSubmenuVisible(false);
@@ -53,7 +69,7 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
     }
 
     if (index === 4) {
-      setSubmenu4Visible((prev) => !prev); // toggle submenu
+      setSubmenu4Visible((prev) => !prev);
       setSubmenu2Visible(false);
       setSubmenuVisible(false);
       setSubmenu6Visible(false);
@@ -61,7 +77,7 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
     }
     
     if (index === 5) {
-      setSubmenu6Visible((prev) => !prev); // toggle submenu para o logo
+      setSubmenu6Visible((prev) => !prev);
       setSubmenu4Visible(false);
       setSubmenu2Visible(false);
       setSubmenuVisible(false);
@@ -109,23 +125,143 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
     if (btnIdx === 4) setCor("grey");
   };
 
+  // CORRIGIDO: O primeiro botão restaura o material original, os outros fazem override
   const handleSubmenuButtonClick4Cor = (butnIdx) => {
-    if (butnIdx === 1) setCorG("black");
-    if (butnIdx === 2) setCorG("white");
-    if (butnIdx === 3) setCorG("blue");
-    if (butnIdx === 4) setCorG("grey");
+    if (butnIdx === 1) setCorLateraisOverride(null); // Remove override, volta ao material original
+    if (butnIdx === 2) setCorLateraisOverride("white");
+    if (butnIdx === 3) setCorLateraisOverride("blue");
+    if (butnIdx === 4) setCorLateraisOverride("grey");
   };
   
   const handleSubmenuButtonClick6Cor = (logoIdx) => {
-    if (logoIdx === 1) setLogoCor("original");
+    if (logoIdx === 1) setLogoCor("bronze");
     if (logoIdx === 2) setLogoCor("silver");
-    if (logoIdx === 3) setLogoCor("gold");
+    if (logoIdx === 3) setLogoCor("white");
     if (logoIdx === 4) setLogoCor("black");
+  };
+
+  // Function to render submenu buttons
+  const renderSubmenuButtons = (submenuType, visible, clickHandler) => {
+    const buttons = [];
+    const buttonConfigs = {
+      material: [
+        { icon: "/Icons/madeira.png", alt: "Wood" },
+        { icon: "/Icons/black.png", alt: "Polystyrene" }
+      ],
+      color: [
+        { color: "#000", alt: "Black" },
+        { color: "#fff", alt: "White" },
+        { color: "#1e3a8a", alt: "Blue" },
+        { color: "#666", alt: "Grey" }
+      ],
+      logo: [
+        { color: "linear-gradient(to right, #913A07, #913A07, #913A07)", alt: "Bronze" },
+        { color: "linear-gradient(to right, #e0e0e0, #b0b0b0, #e0e0e0)", alt: "Silver" },
+        { color: "linear-gradient(to right, #e0e0e0, #e0e0e0, #e0e0e0)", alt: "White" },
+        { color: "#000", alt: "Black" },
+      ]
+    };
+
+    const config = buttonConfigs[submenuType];
+    
+    config.forEach((item, index) => {
+      buttons.push(
+        <button 
+          key={index}
+          className="submenu-button"
+          onClick={() => clickHandler(index + 1)}
+          style={{
+            width: "30px",
+            height: "30px",
+            borderRadius: "50%",
+            border: "none",
+            cursor: "pointer",
+            background: "#adadad",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transition: "transform 0.3s ease"
+          }}
+        >
+          {item.icon ? (
+            <img 
+              src={item.icon}
+              alt={item.alt}
+              style={{ 
+                width: "95%", 
+                height: "95%", 
+                objectFit: "contain" 
+              }} 
+            />
+          ) : item.text ? (
+            <div style={{
+              width: "95%", 
+              height: "95%",
+              borderRadius: "50%",
+              background: "linear-gradient(to right, #eee, #999)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "8px",
+              color: "#333",
+              fontWeight: "bold"
+            }}>
+              {item.text}
+            </div>
+          ) : (
+            <div style={{
+              width: "95%", 
+              height: "95%",
+              borderRadius: "50%",
+              background: item.color,
+            }}></div>
+          )}
+        </button>
+      );
+    });
+
+    return buttons;
+  };
+
+  // Generic submenu renderer
+  const renderSubmenu = (index, visible, submenuType, clickHandler, width = "265px") => {
+    if (index === 0 && submenuType === "material") width = "210px";
+    
+    return (
+      <div 
+        className={`submenu-container ${visible ? 'submenu-visible' : ''}`}
+        style={{
+          position: "absolute",
+          left: "120%",
+          top: "12.5%",
+          height: "75%",
+          width,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          background: "linear-gradient(to right,rgb(82, 82, 82),rgb(43, 43, 43))",
+          borderRadius: "15px",
+          opacity: visible ? 1 : 0,
+          transform: `translateX(${visible ? '0' : '-30px'})`,
+          transition: "all 0.3s ease",
+          zIndex: 10
+        }}
+      >
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "flex-end",
+          gap: submenuType === "material" ? "15px" : "10px",
+          width: submenuType === "material" ? "85%" : "90%",
+          paddingRight: submenuType === "material" ? "25px" : "20px"
+        }}>
+          {renderSubmenuButtons(submenuType, visible, clickHandler)}
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="side-menu">
-      {/* Glowing Curved Line */}
       {/* Glowing Curved Line */}
       <div className="glowing-curve">
         <svg 
@@ -135,7 +271,6 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
           preserveAspectRatio="none"
           className="blue-glow"
         >
-          {/* Curva convexa (para fora) - counter-clockwise */}
           <path
             d="M80,20 Q30,300 80,580"
             className="glowing-path"
@@ -145,494 +280,25 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
       
       {buttonOffsets.map((marginLeft, index) => (
         <div key={index} style={{ position: "relative" }}>
-          {/* Button Label - positioned to the left of button with proper offset */}
-          <div className="button-label" style={{ 
+          {/* Button Label */}
+          <div className="side-button-label-container" style={{ 
             position: "absolute", 
-            right: "calc(100% + 15px)", // Position to left of button with 15px spacing
+            right: "calc(100% + 15px)",
             top: "50%",
-            transform: `translateY(-50%) translateX(${marginLeft})`, // Apply same offset as button for alignment
+            transform: `translateY(-50%) translateX(${marginLeft})`,
             textAlign: "right",
             whiteSpace: "nowrap",
-            zIndex: 15 // Below buttons but above other elements
+            zIndex: 15
           }}>
             <div className="label-line1">{buttonImages[index].label[0]}</div>
             <div className="label-line2">{buttonImages[index].label[1]}</div>
           </div>
           
-          {index === 0 && (
-            <div 
-              className={`submenu-container ${submenuVisible ? 'submenu-visible' : ''}`}
-              style={{
-                position: "absolute",
-                left: "120%", // Position it more to the left of the button
-                top: "12.5%", // Center it vertically (100% - 75%) / 2
-                height: "65%", // 75% of the button height
-                width: "210px", // Approximately 3 buttons wide
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end", // Push content to the right side
-                background: "linear-gradient(to right,rgb(82, 82, 82),rgb(43, 43, 43))",
-                borderRadius: "15px",
-                opacity: submenuVisible ? 1 : 0,
-                transform: `translateX(${submenuVisible ? '0' : '-30px'})`,
-                transition: "all 0.3s ease",
-                zIndex: 10
-              }}
-            >
-              <div style={{ 
-                display: "flex", 
-                justifyContent: "flex-end", // Align buttons to the right
-                gap: "15px", // Smaller gap between buttons
-                width: "85%", // Take less width to push buttons right
-                paddingRight: "25px" // Padding on the right side only
-              }}>
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick(1)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <img 
-                    src="/Icons/madeira.png" 
-                    alt="Submenu Button 1" 
-                    style={{ 
-                      width: "95%", 
-                      height: "95%", 
-                      objectFit: "contain" 
-                    }} 
-                  />
-                </button>
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick(2)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <img 
-                    src="/Icons/black.png" 
-                    alt="Submenu Button 2" 
-                    style={{ 
-                      width: "95%", 
-                      height: "95%", 
-                      objectFit: "contain" 
-                    }} 
-                  />
-                </button>
-              </div>
-            </div>
-          )}
-          {index === 1 && (
-            <div 
-              className={`submenu-container ${submenu2Visible ? 'submenu-visible' : ''}`}
-              style={{
-                position: "absolute",
-                left: "120%",
-                top: "12.5%",
-                height: "75%",
-                width: "235px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                background: "linear-gradient(to right,rgb(82, 82, 82),rgb(43, 43, 43))",
-                borderRadius: "15px",
-                opacity: submenu2Visible ? 1 : 0,
-                transform: `translateX(${submenu2Visible ? '0' : '-30px'})`,
-                transition: "all 0.3s ease",
-                zIndex: 10
-              }}
-            >
-              <div style={{ 
-                display: "flex", 
-                justifyContent: "flex-end",
-                gap: "10px",
-                width: "90%",
-                paddingRight: "20px"
-              }}>
-                {/* Botões de cor para Cuba Interior */}
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClickCor(1)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#000",
-                  }}></div>
-                </button>
-                
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClickCor(2)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#fff",
-                  }}></div>
-                </button>
-                
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClickCor(3)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#1e3a8a",
-                  }}></div>
-                </button>
-                
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClickCor(4)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#666",
-                  }}></div>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {index === 4 && (
-            <div 
-              className={`submenu-container ${submenu4Visible ? 'submenu-visible' : ''}`}
-              style={{
-                position: "absolute",
-                left: "120%",
-                top: "12.5%",
-                height: "75%",
-                width: "235px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                background: "linear-gradient(to right,rgb(82, 82, 82),rgb(43, 43, 43))",
-                borderRadius: "15px",
-                opacity: submenu4Visible ? 1 : 0,
-                transform: `translateX(${submenu4Visible ? '0' : '-30px'})`,
-                transition: "all 0.3s ease",
-                zIndex: 10
-              }}
-            >
-              <div style={{ 
-                display: "flex", 
-                justifyContent: "flex-end",
-                gap: "10px",
-                width: "90%",
-                paddingRight: "20px"
-              }}>
-                {/* Botões de cor para Grelha */}
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick4Cor(1)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#000",
-                  }}></div>
-                </button>
-                
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick4Cor(2)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#fff",
-                  }}></div>
-                </button>
-                
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick4Cor(3)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#1e3a8a",
-                  }}></div>
-                </button>
-                
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick4Cor(4)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#666",
-                  }}></div>
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Novo submenu para o logo (6º botão) */}
-          {index === 5 && (
-            <div 
-              className={`submenu-container ${submenu6Visible ? 'submenu-visible' : ''}`}
-              style={{
-                position: "absolute",
-                left: "120%",
-                top: "12.5%",
-                height: "75%",
-                width: "235px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                background: "linear-gradient(to right,rgb(82, 82, 82),rgb(43, 43, 43))",
-                borderRadius: "15px",
-                opacity: submenu6Visible ? 1 : 0,
-                transform: `translateX(${submenu6Visible ? '0' : '-30px'})`,
-                transition: "all 0.3s ease",
-                zIndex: 10
-              }}
-            >
-              <div style={{ 
-                display: "flex", 
-                justifyContent: "flex-end",
-                gap: "10px",
-                width: "90%",
-                paddingRight: "20px"
-              }}>
-                {/* 4 opções de cor para o logo */}
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick6Cor(1)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "linear-gradient(to right, #eee, #999)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "8px",
-                    color: "#333",
-                    fontWeight: "bold"
-                  }}>
-                    ORIG
-                  </div>
-                </button>
-                
-                {/* Prata */}
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick6Cor(2)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "linear-gradient(to right, #e0e0e0, #b0b0b0, #e0e0e0)",
-                  }}></div>
-                </button>
-                
-                {/* Dourado */}
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick6Cor(3)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "linear-gradient(to right, #ffd700, #b8860b, #ffd700)",
-                  }}></div>
-                </button>
-                
-                {/* Preto */}
-                <button 
-                  className="submenu-button"
-                  onClick={() => handleSubmenuButtonClick6Cor(4)}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: "#adadad",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    transition: "transform 0.3s ease"
-                  }}
-                >
-                  <div style={{
-                    width: "95%", 
-                    height: "95%",
-                    borderRadius: "50%",
-                    background: "#000",
-                  }}></div>
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Submenus */}
+          {index === 0 && renderSubmenu(index, submenuVisible, "material", handleSubmenuButtonClick)}
+          {index === 1 && renderSubmenu(index, submenu2Visible, "color", handleSubmenuButtonClickCor)}
+          {index === 4 && renderSubmenu(index, submenu4Visible, "color", handleSubmenuButtonClick4Cor)}
+          {index === 5 && renderSubmenu(index, submenu6Visible, "logo", handleSubmenuButtonClick6Cor)}
 
           <button
             className="side-button"
@@ -640,7 +306,7 @@ export function SideMenu({ onButtonClick, setCurrentMaterialP, setCurrentMateria
               transform: `translateX(${marginLeft})`, 
               transition: "all 0.3s ease",
               position: "relative",
-              zIndex: 20 // Keep the main button above the submenu
+              zIndex: 20
             }}
             onClick={() => handleButtonClick(index)}
           >

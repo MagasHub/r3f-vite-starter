@@ -13,7 +13,7 @@ function App() {
   const [currentMaterialS, setCurrentMaterialS] = useState(null);
   const [isImageActive, setIsImageActive] = useState(false);
   const [isImageActiveB, setIsImageActiveB] = useState(false);
-
+  const [corLaterais, setCorLaterais] = useState("black");
   const [imageData, setImageData] = useState(null);
   const [currentMaterialP, setCurrentMaterialP] = useState(null);
   const [currentMaterialB, setCurrentMaterialB] = useState(null);
@@ -23,6 +23,8 @@ function App() {
   const [tamposVisible, setTamposVisible] = useState(true);
   const [selectedAccessories, setSelectedAccessories] = useState([]);
   const [logoCor, setLogoCor] = useState("original");
+  const [corLateraisOverride, setCorLateraisOverride] = useState(null);
+
 
   // Inicializar com o preset do primeiro modelo quando o aplicativo carrega
   useEffect(() => {
@@ -67,6 +69,7 @@ function App() {
         setCorG={setCorG}
         logoCor={logoCor}
         setLogoCor={setLogoCor}
+        setCorLateraisOverride={setCorLateraisOverride} 
       />
       <SideMenu
         setCurrentMaterialP={setCurrentMaterialP}
@@ -82,6 +85,11 @@ function App() {
         onButtonClick={(i) => {}}
         logoCor={logoCor}
         setLogoCor={setLogoCor}
+        corLaterais={corLaterais}  
+        setCorLaterais={setCorLaterais}
+        corLateraisOverride={corLateraisOverride} // Estado do override
+        setCorLateraisOverride={setCorLateraisOverride} // Override manual das laterais
+
       />
 
       {/* 3D Canvas */}
@@ -119,6 +127,9 @@ function App() {
           imageData={imageData} // Renomeado para imageData para combinar com o TensaiH
           selectedAccessories={selectedAccessories}
           logoCor={logoCor}
+          corLaterais={corLaterais}
+          corLateraisOverride={corLateraisOverride} // Override manual das laterais
+
         />
       </Canvas>
       <BottomBar onAccessoryClick={handleAccessoryClick} />

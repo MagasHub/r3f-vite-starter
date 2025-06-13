@@ -23,6 +23,7 @@
     "lucide-react": "^0.476.0",
     "path": "^0.12.7",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.4.1",
     "three": "^0.152.0",
